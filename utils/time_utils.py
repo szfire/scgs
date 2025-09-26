@@ -770,15 +770,15 @@ class HashDeformNetwork(nn.Module):
 class ControlNodeWarp(nn.Module):
     def __init__(self, is_blender, init_pcl=None, node_num=512, K=3, use_hash=False, hash_time=False, enable_densify_prune=False, pred_opacity=False, pred_color=False, with_arap_loss=False, with_node_weight=True, local_frame=False, d_rot_as_res=True, skinning=False, hyper_dim=2, progressive_brand_time=False, max_d_scale=-1, is_scene_static=False, **kwargs):
         super().__init__()
-        self.K = K
+        self.K = K # K of KNN
         self.use_hash = use_hash
         self.hash_time = hash_time
         self.enable_dp = enable_densify_prune
         self.name = 'node'
         self.with_node_weight = with_node_weight
-        self.reg_loss = 0.
-        self.local_frame = local_frame
-        self.d_rot_as_res = d_rot_as_res
+        self.reg_loss = 0. # regularization loss
+        self.local_frame = local_frame 
+        self.d_rot_as_res = d_rot_as_res # 
         self.hyper_dim = hyper_dim if not skinning else 0  # skinning should not be with hyper
         self.is_blender = is_blender
         self.pred_opacity = pred_opacity
