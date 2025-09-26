@@ -29,8 +29,6 @@ lpips = LPIPS()
 from utils.image_utils import ssim as ssim_func
 from utils.image_utils import psnr, lpips, alex_lpips
 
-device_num = 3
-
 def render_set(model_path, load2gpt_on_the_fly, name, iteration, views, gaussians, pipeline, background, deform):
     render_path = os.path.join(model_path, name, "ours_{}".format(iteration), "renders")
     gts_path = os.path.join(model_path, name, "ours_{}".format(iteration), "gt")
@@ -63,7 +61,7 @@ def render_set(model_path, load2gpt_on_the_fly, name, iteration, views, gaussian
 
         # Measurement
         image = rendering[:3]
-        gt_image = torch.clamp(view.original_image.to(f"cuda:{device_num}"), 0.0, 1.0)
+        gt_image = torch.clamp(view.original_image.to("cuda"), 0.0, 1.0)
         psnr_list.append(psnr(image[None], gt_image[None]).mean())
         ssim_list.append(ssim_func(image[None], gt_image[None], data_range=1.).mean())
         lpips_list.append(lpips(image[None], gt_image[None]).mean())
@@ -104,7 +102,7 @@ def interpolate_time(model_path, load2gpt_on_the_fly, name, iteration, views, ga
     view = views[idx]
     renderings = []
     for t in tqdm(range(0, frame, 1), desc="Rendering progress"):
-        fid = torch.Tensor([t / (frame - 1)]).cuda(device_num)
+        fid = torch.Tensor([t / (frame - 1)]).cuda()
         xyz = gaussians.get_xyz
         if deform.name == 'deform':
             time_input = fid.unsqueeze(0).expand(xyz.shape[0], -1)
@@ -141,7 +139,7 @@ def interpolate_all(model_path, load2gpt_on_the_fly, name, iteration, views, gau
 
     renderings = []
     for i, pose in enumerate(tqdm(render_poses, desc="Rendering progress")):
-        fid = torch.Tensor([i / (frame - 1)]).cuda(device_num)
+        fid = torch.Tensor([i / (frame - 1)]).cuda()
 
         matrix = np.linalg.inv(np.array(pose))
         R = -np.transpose(matrix[:3, :3])
@@ -182,7 +180,7 @@ def render_sets(dataset: ModelParams, iteration: int, pipeline: PipelineParams, 
         scene = Scene(dataset, gaussians, load_iteration=iteration, shuffle=False)
 
         bg_color = [1, 1, 1] if dataset.white_background else [0, 0, 0]
-        background = torch.tensor(bg_color, dtype=torch.float32, device=f"cuda:{device_num}")
+        background = torch.tensor(bg_color, dtype=torch.float32, device=f"cuda")
 
         if mode == "render":
             render_func = render_set

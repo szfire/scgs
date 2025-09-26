@@ -204,4 +204,4 @@ def safe_state(silent, device_num):
     random.seed(0)
     np.random.seed(0)
     torch.manual_seed(0)
-    torch.cuda.set_device(torch.device(f"cuda:{device_num}").index)
+    torch.cuda.set_device(torch.device(f"cuda:{device_num}"))
