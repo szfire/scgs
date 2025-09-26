@@ -182,7 +182,7 @@ def build_scaling_rotation_inverse(s, r):
     return L
 
 
-def safe_state(silent):
+def safe_state(silent, device_num):
     old_f = sys.stdout
 
     class F:
@@ -204,4 +204,4 @@ def safe_state(silent):
     random.seed(0)
     np.random.seed(0)
     torch.manual_seed(0)
-    torch.cuda.set_device(torch.device("cuda:0"))
+    torch.cuda.set_device(torch.device(f"cuda:{device_num}"))
