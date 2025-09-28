@@ -49,11 +49,12 @@ run_pipeline() {
 #Neural3D_DA=("Painter" "Birthday" "Train" "Fatma" "Hands") # "Painter" "Birthday" "Train" "Fatma" "Hands")  "Fabien"  "Theater" #( "Fatma" "Hands") #("coffee_martini" "flame_steak") # "Birthday" "Fabien"   "Fabien" "Theater" "Train"  "Theater"
 #Neural3D_DA=( "Birthday")
 
-D-NeRF=("bouncingballs" "hellwarrior" "hook" "jumpingjacks" "lego" "mutant" "standup" "trex")
+D_NeRF=("bouncingballs" "hellwarrior" "hook" "jumpingjacks" "lego" "mutant" "standup" "trex")
 # valloader="technicolorvalid"
 # 循环遍历数组并调用run_pipeline函数
-for data_name in "${NeRF[@]}"; 
+for data_name in "${D_NeRF[@]}"; 
 do
+    echo -e "\033[32m###################################################\033[0m"
     echo "Dataset: D-NeRF/${data_name}"
     # data_name_path="Technicolor/${data_name}"
     run_pipeline "$GPU_ID" "$data_name"
