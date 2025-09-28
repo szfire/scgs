@@ -1,3 +1,4 @@
+submodules/*
 outputs/*
 .vscode/*
 __pycache__/*
