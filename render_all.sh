@@ -17,7 +17,7 @@ run_pipeline() {
     --local_frame \
     --resolution 2 \
     --W 800 \
-    --H 800 > outputs/"$2"/render.log 2>&1
+    --H 800 > outputs/"$2"_node/render.log 2>&1
 }
 
 # 定义NeRF-DS数据集数组
